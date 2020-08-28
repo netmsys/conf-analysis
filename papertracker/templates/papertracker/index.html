@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<style>
+body {
+    font-family: 'Montserrat';
+}
+
+@media screen and (max-height: 450px) {
+  
+}
+
+@media (min-width:760px) {
+  
+}
+
+  
+
+
+ </style>
+</head>
+<body>
+<div class="bg-light p-4 text-center font-weight-bold border-bottom">BlindTracker</div>
+<div class="bg-light">
+<br>
+<br>
+<div class="col-12 col-xl-9 mx-auto">
+<h3 class="font-weight-bold mt-3 mb-3">All the Conferences in 2020</h3>
+<p class="m-0 p-0 text-right">
+{{single}} BLIND, {{double}} DOUBLE BLIND
+</p>
+{% for conf in conferences %}
+<div class="border mb-3 bg-white shadow-sm p-2">
+<h4 class="m-0 p-1">
+<a href="{% url 'papertracker:conference' conf.id %}" class="text-info font-weight-bold">
+{{conf.name}} {{conf.year}}
+</a>
+<span class="float-right text-warning"style="font-size:16px;">
+{% if conf.single == True %}
+	<i class="fas fa-circle"></i>
+{% else %}
+	<i class="fas fa-circle"></i><i class="fas fa-circle"></i>
+{% endif %}
+</span>
+</h4>
+<p class="m-0 p-1 font-weight-bold">
+{{conf.fullname}}
+</p>
+<p class="m-0 p-1">
+<span class="pr-3">
+<i class="fas fa-network-wired"></i> {{conf.category.name}}
+</span>
+<span class="pr-3">
+<i class="fas fa-university"></i> {{conf.organizer.name}}
+</span>
+<br>
+{% if conf.single == True %}
+<i class="fas fa-circle"></i> BLIND REVIEW
+{% else %}
+<i class="fas fa-circle"></i><i class="fas fa-circle"></i> DOUBLE-BLIND REVIEW
+{% endif %}
+</p>
+</div>
+{% endfor %}
+
+
+<p>All the papers</p>
+{% for paper in papers %}
+<div class="border mb-3 bg-white shadow-sm">
+<h4 class="m-0 p-1">{{paper.title}}</h4>
+<p class="m-0 p-1">
+<span class="float-right">{{paper.year}}</span>
+</p>
+<p class="mt-0 mb-3 p-1">
+{% for author in authors %}
+{% if author.paper.id == paper.id %}
+<span class="border p-2">{{author.name}}</span>
+{% endif %}
+{% endfor %}
+</p>
+</div>
+{% endfor %}
+</div>
+</div>
+</body>
+</html>
